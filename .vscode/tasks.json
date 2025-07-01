@@ -28,12 +28,53 @@
             ]
         },
         {
-            "label": "run-with-smart-input",
+            "label": "debug-build",
             "type": "shell",
-            "command": "powershell",
+            "command": "g++",
             "args": [
-                "-Command",
-                "if (Test-Path '${fileDirname}\\${fileBasenameNoExtension}.input') { Get-Content '${fileDirname}\\${fileBasenameNoExtension}.input' | & '${fileDirname}\\${fileBasenameNoExtension}.exe' } else { & '${fileDirname}\\${fileBasenameNoExtension}.exe' }"
+                "-x",
+                "c++",
+                "-std=gnu++2b",
+                "-fdiagnostics-color=always",
+                "-Wall",
+                "-g",
+                "-O0",
+                "-static",
+                "-pipe",
+                "-DONLINE_JUDGE",
+                "-DDOMJUDGE",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "${file}"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "${fileDirname}/${fileBasenameNoExtension}",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "dependsOn": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "run input",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "if [ -f \"${fileDirname}/${fileBasenameNoExtension}.in\" ]; then \"${fileDirname}/${fileBasenameNoExtension}\" < \"${fileDirname}/${fileBasenameNoExtension}.in\"; else echo \"Error: ${fileBasenameNoExtension}.in not found\" && exit 1; fi"
             ],
             "group": "test",
             "dependsOn": "build",
