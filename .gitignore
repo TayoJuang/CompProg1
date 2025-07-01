@@ -3,7 +3,7 @@
 cmake-build-*/
 
 # vscode
-.vscode/
+#.vscode/
 build/
 
 # Visual Studio

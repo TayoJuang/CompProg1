@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-x",
+                "c++",
+                "-std=gnu++2b",
+                "-Wall",
+                "-O2",
+                "-static",
+                "-pipe",
+                "-DONLINE_JUDGE",
+                "-DDOMJUDGE",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "${file}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "run-with-smart-input",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "if (Test-Path '${fileDirname}\\${fileBasenameNoExtension}.input') { Get-Content '${fileDirname}\\${fileBasenameNoExtension}.input' | & '${fileDirname}\\${fileBasenameNoExtension}.exe' } else { & '${fileDirname}\\${fileBasenameNoExtension}.exe' }"
+            ],
+            "group": "test",
+            "dependsOn": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        }
+    ]
+}
